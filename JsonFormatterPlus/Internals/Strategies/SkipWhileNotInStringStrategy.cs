@@ -1,6 +1,6 @@
 ﻿namespace JsonFormatterPlus.Internals.Strategies
 {
-    public class SkipWhileNotInStringStrategy : ICharacterStrategy
+    internal sealed class SkipWhileNotInStringStrategy : ICharacterStrategy
     {
         private readonly char _selectionCharacter;
 

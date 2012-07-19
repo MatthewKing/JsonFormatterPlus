@@ -1,6 +1,6 @@
 ﻿namespace JsonFormatterPlus.Internals.Strategies
 {
-    public class ColonCharacterStrategy : ICharacterStrategy
+    internal sealed class ColonCharacterStrategy : ICharacterStrategy
     {
         public void ExecutePrintyPrint(JsonFormatterStrategyContext context)
         {

@@ -1,6 +1,6 @@
 ﻿namespace JsonFormatterPlus.Internals
 {
-    public interface ICharacterStrategy
+    internal interface ICharacterStrategy
     {
         void ExecutePrintyPrint(JsonFormatterStrategyContext context);
 

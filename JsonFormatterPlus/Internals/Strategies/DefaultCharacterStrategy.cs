@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class DefaultCharacterStrategy : ICharacterStrategy
+    internal sealed class DefaultCharacterStrategy : ICharacterStrategy
     {
         public void ExecutePrintyPrint(JsonFormatterStrategyContext context)
         {

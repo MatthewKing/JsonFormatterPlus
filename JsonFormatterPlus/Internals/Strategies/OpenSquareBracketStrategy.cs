@@ -1,6 +1,6 @@
 ﻿namespace JsonFormatterPlus.Internals.Strategies
 {
-    public class OpenSquareBracketStrategy : ICharacterStrategy
+    internal sealed class OpenSquareBracketStrategy : ICharacterStrategy
     {
         public void ExecutePrintyPrint(JsonFormatterStrategyContext context)
         {

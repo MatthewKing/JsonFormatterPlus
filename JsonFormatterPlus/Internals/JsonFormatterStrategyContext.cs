@@ -5,7 +5,7 @@
     using System.Text;
     using JsonFormatterPlus.Internals.Strategies;
 
-    public class JsonFormatterStrategyContext
+    internal sealed class JsonFormatterStrategyContext
     {
 
         private const string Space = " ";

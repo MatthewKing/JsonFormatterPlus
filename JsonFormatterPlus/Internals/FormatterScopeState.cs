@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class FormatterScopeState
+    internal sealed class FormatterScopeState
     {
         public enum JsonScope
         {

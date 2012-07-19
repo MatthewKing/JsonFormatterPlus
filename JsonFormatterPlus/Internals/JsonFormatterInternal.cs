@@ -4,7 +4,7 @@
     using System.Text;
     using JsonFormatterPlus.Internals.Strategies;
 
-    public class JsonFormatterInternal
+    internal sealed class JsonFormatterInternal
     {
         private readonly JsonFormatterStrategyContext context;
 
