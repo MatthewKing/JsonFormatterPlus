@@ -2,7 +2,7 @@
 {
     internal sealed class SingleQuoteStrategy : ICharacterStrategy
     {
-        public void ExecutePrintyPrint(JsonFormatterStrategyContext context)
+        public void Execute(JsonFormatterStrategyContext context)
         {
             if (!context.IsProcessingDoubleQuoteInitiatedString && !context.WasLastCharacterABackSlash)
                 context.IsProcessingSingleQuoteInitiatedString = !context.IsProcessingSingleQuoteInitiatedString;

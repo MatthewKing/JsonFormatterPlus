@@ -2,7 +2,7 @@
 {
     internal sealed class ColonCharacterStrategy : ICharacterStrategy
     {
-        public void ExecutePrintyPrint(JsonFormatterStrategyContext context)
+        public void Execute(JsonFormatterStrategyContext context)
         {
             if (context.IsProcessingString)
             {

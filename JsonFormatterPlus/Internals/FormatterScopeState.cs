@@ -10,13 +10,14 @@
             Array
         }
 
-        private readonly Stack<JsonScope> _jsonScopeStack = new Stack<JsonScope>();
+        private readonly Stack<JsonScope> scopeStack = new Stack<JsonScope>();
 
         public bool IsTopTypeArray
         {
             get
             {
-                return _jsonScopeStack.Count > 0 && _jsonScopeStack.Peek() == JsonScope.Array;
+                return scopeStack.Count > 0 
+                    && scopeStack.Peek() == JsonScope.Array;
             }
         }
 
@@ -24,23 +25,23 @@
         {
             get
             {
-                return _jsonScopeStack.Count;
+                return scopeStack.Count;
             }
         }
 
         public void PushObjectContextOntoStack()
         {
-            _jsonScopeStack.Push(JsonScope.Object);
+            scopeStack.Push(JsonScope.Object);
         }
 
         public JsonScope PopJsonType()
         {
-            return _jsonScopeStack.Pop();
+            return scopeStack.Pop();
         }
 
         public void PushJsonArrayType()
         {
-            _jsonScopeStack.Push(JsonScope.Array);
+            scopeStack.Push(JsonScope.Array);
         }
     }
 }

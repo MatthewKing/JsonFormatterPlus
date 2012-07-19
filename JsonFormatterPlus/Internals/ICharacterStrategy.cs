@@ -2,7 +2,7 @@
 {
     internal interface ICharacterStrategy
     {
-        void ExecutePrintyPrint(JsonFormatterStrategyContext context);
+        void Execute(JsonFormatterStrategyContext context);
 
         char ForWhichCharacter { get; }
     }

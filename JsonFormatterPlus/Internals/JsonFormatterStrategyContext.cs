@@ -7,49 +7,59 @@
 
     internal sealed class JsonFormatterStrategyContext
     {
-
         private const string Space = " ";
-        public int SpacesPerIndent = 4;
+        private const int SpacesPerIndent = 4;
 
-        private string _indent = string.Empty;
+        private string indent = String.Empty;
+
+        private char currentCharacter;
+        private char previousChar;
+
+        private StringBuilder outputBuilder;
+
+        private readonly FormatterScopeState scopeState = new FormatterScopeState();
+        private readonly IDictionary<char, ICharacterStrategy> strategies = new Dictionary<char, ICharacterStrategy>();
+
+
         public string Indent
         {
             get
             {
-                if (SpacesPerIndent == 0)
-                    return string.Empty;
+                if (this.indent == String.Empty)
+                {
+                    this.InitializeIndent();
+                }
 
-                if (_indent == string.Empty)
-                    InitializeIndent();
-
-                return _indent;
+                return this.indent;
             }
         }
 
         private void InitializeIndent()
         {
-            for (int iii = 0; iii < SpacesPerIndent; iii++)
-                _indent += Space;
+            for (int i = 0; i < SpacesPerIndent; i++)
+            {
+                this.indent += Space;
+            }
         }
 
-        private readonly FormatterScopeState _scopeState = new FormatterScopeState();
 
         public bool IsInArrayScope
         {
             get
             {
-                return _scopeState.IsTopTypeArray;
+                return this.scopeState.IsTopTypeArray;
             }
         }
 
         private void AppendIndents(int indents)
         {
-            for (var iii = 0; iii < indents; iii++)
-                _outputBuilder.Append(Indent);
+            for (int i = 0; i < indents; i++)
+            {
+                this.outputBuilder.Append(Indent);
+            }
         }
 
         public bool IsProcessingVariableAssignment;
-        private char _previousChar;
         public bool IsProcessingDoubleQuoteInitiatedString { get; set; }
         public bool IsProcessingSingleQuoteInitiatedString { get; set; }
 
@@ -57,7 +67,8 @@
         {
             get
             {
-                return IsProcessingDoubleQuoteInitiatedString || IsProcessingSingleQuoteInitiatedString;
+                return this.IsProcessingDoubleQuoteInitiatedString 
+                    || this.IsProcessingSingleQuoteInitiatedString;
             }
         }
 
@@ -65,7 +76,7 @@
         {
             get
             {
-                return _outputBuilder.Length == 0;
+                return this.outputBuilder.Length == 0;
             }
         }
 
@@ -73,74 +84,69 @@
         {
             get
             {
-                return _previousChar == '\\';
+                return this.previousChar == '\\';
             }
         }
-
-        private readonly IDictionary<char, ICharacterStrategy> _strategyCatalog = new Dictionary<char, ICharacterStrategy>();
-
-        private StringBuilder _outputBuilder;
-        private char _currentCharacter;
-
+            
         public void PrettyPrintCharacter(char curChar, StringBuilder output)
         {
-            _currentCharacter = curChar;
+            this.currentCharacter = curChar;
 
-            var strategy = _strategyCatalog.ContainsKey(curChar)
-                                ? _strategyCatalog[curChar]
-                                : new DefaultCharacterStrategy();
+            ICharacterStrategy strategy = this.strategies.ContainsKey(curChar)
+                ? strategies[curChar]
+                : new DefaultCharacterStrategy();
 
-            _outputBuilder = output;
+            this.outputBuilder = output;
 
-            strategy.ExecutePrintyPrint(this);
+            strategy.Execute(this);
 
-            _previousChar = curChar;
+            this.previousChar = curChar;
         }
 
         public void AppendCurrentChar()
         {
-            _outputBuilder.Append(_currentCharacter);
+            this.outputBuilder.Append(this.currentCharacter);
         }
 
         public void AppendNewLine()
         {
-            _outputBuilder.Append(Environment.NewLine);
+            this.outputBuilder.Append(Environment.NewLine);
         }
 
         public void BuildContextIndents()
         {
-            AppendNewLine();
-            AppendIndents(_scopeState.ScopeDepth);
+            this.AppendNewLine();
+            this.AppendIndents(this.scopeState.ScopeDepth);
         }
 
         public void EnterObjectScope()
         {
-            _scopeState.PushObjectContextOntoStack();
+            this.scopeState.PushObjectContextOntoStack();
         }
 
         public void CloseCurrentScope()
         {
-            _scopeState.PopJsonType();
+            this.scopeState.PopJsonType();
         }
 
         public void EnterArrayScope()
         {
-            _scopeState.PushJsonArrayType();
+            this.scopeState.PushJsonArrayType();
         }
 
         public void AppendSpace()
         {
-            _outputBuilder.Append(Space);
+            this.outputBuilder.Append(Space);
         }
 
         public void ClearStrategies()
         {
-            _strategyCatalog.Clear();
+            this.strategies.Clear();
         }
 
         public void AddCharacterStrategy(ICharacterStrategy strategy)
         {
-            _strategyCatalog[strategy.ForWhichCharacter] = strategy;
+            this.strategies[strategy.ForWhichCharacter] = strategy;
         }
     }
 }

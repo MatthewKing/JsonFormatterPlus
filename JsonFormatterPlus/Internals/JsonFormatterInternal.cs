@@ -29,13 +29,20 @@
 
         public string Format(string json)
         {
+            if (json == null)
+            {
+                return String.Empty;
+            }
+
             if (json.Trim() == String.Empty)
-                return "";
+            {
+                return String.Empty;
+            }
 
             StringBuilder input = new StringBuilder(json);
             StringBuilder output = new StringBuilder();
 
-            PrettyPrintCharacter(input, output);
+            this.PrettyPrintCharacter(input, output);
 
             return output.ToString();
         }

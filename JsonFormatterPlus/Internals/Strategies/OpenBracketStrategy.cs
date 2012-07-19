@@ -2,7 +2,7 @@
 {
     internal sealed class OpenBracketStrategy : ICharacterStrategy
     {
-        public void ExecutePrintyPrint(JsonFormatterStrategyContext context)
+        public void Execute(JsonFormatterStrategyContext context)
         {
             if (context.IsProcessingString)
             {

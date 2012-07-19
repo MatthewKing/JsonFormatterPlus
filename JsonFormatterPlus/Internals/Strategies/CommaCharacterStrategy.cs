@@ -2,11 +2,14 @@
 {
     internal sealed class CommaStrategy : ICharacterStrategy
     {
-        public void ExecutePrintyPrint(JsonFormatterStrategyContext context)
+        public void Execute(JsonFormatterStrategyContext context)
         {
             context.AppendCurrentChar();
 
-            if (context.IsProcessingString) return;
+            if (context.IsProcessingString)
+            {
+                return;
+            }
 
             context.BuildContextIndents();
             context.IsProcessingVariableAssignment = false;
