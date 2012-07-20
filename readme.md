@@ -13,6 +13,11 @@ Example
 
 (I told you it was simple!)
 
+What sets this apart from JsonPrettyPrinterPlus?
+------------------------------------------------
+
+Not a lot. Mark's version works very well. However, I wanted to make the project suitable for .NET 2.0, 3.0, and the various client profiles. This meant that the extension methods and the dependency on System.Web.Extensions had to go! 
+
 License
 -------
 JsonFormatter is distributed under the MIT license.
