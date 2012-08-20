@@ -2,19 +2,28 @@ JsonFormatterPlus
 =================
 
 This library provides some simple JSON formatting / pretty printing functionality for .NET.
-It is based on Mark Rogers' [JsonPrettyPrinterPlus](http://www.markdavidrogers.com/oxitesample/Blog/json-pretty-printerbeautifier-library-for-net).
+It was originally based on Mark Rogers' [JsonPrettyPrinterPlus](http://www.markdavidrogers.com/oxitesample/Blog/json-pretty-printerbeautifier-library-for-net), but has evolved from there.
 
 ### Example
 
+Pretty-printing a JSON string:
+
 ```csharp
 string formattedJson = JsonFormatter.Format(unformattedJson);
+```
+
+Minifying a JSON string:
+
+```csharp
+string minifiedJson = JsonFormatter.Minify(json);
 ```
 
 (I told you it was simple!)
 
 ### What sets this apart from JsonPrettyPrinterPlus?
 
-Not a lot. Mark's version works very well. However, I wanted to make the project suitable for .NET 2.0, 3.0, and the various client profiles. This meant that the extension methods and the dependency on System.Web.Extensions had to go! 
+JsonPrettyPrinterPlus works very well. However, I wanted to make the project suitable for .NET 2.0, 3.0, and the various client profiles. This meant that the extension methods and the dependency on System.Web.Extensions had to go! 
+A few extra 'quality of life' changes were also made, such as providing JSON minification, etc.
 
 ### License
 
