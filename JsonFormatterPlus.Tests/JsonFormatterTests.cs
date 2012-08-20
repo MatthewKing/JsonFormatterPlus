@@ -7,6 +7,122 @@
     [TestFixture]
     internal sealed class JsonFormatterTests
     {
+        #region Example data.
+
+        // Source data from JSON.ORG: http://json.org/example.html
+        // Formatted using JSONLint's formatter: http://jsonlint.com/
+
+        private static readonly string example1Minified = 
+            "{\"glossary\":{\"title\":\"example glossary\",\"GlossDiv\":{\"title\":\"S\",\"GlossList\":{\"GlossEntry\":{\"ID\":\"SGML\",\"SortAs\":\"SGML\",\"GlossTerm\":\"Standard Generalized Markup Language\",\"Acronym\":\"SGML\",\"Abbrev\":\"ISO 8879:1986\",\"GlossDef\":{\"para\":\"A meta-markup language,used to create markup languages such as DocBook.\",\"GlossSeeAlso\":[\"GML\",\"XML\"]},\"GlossSee\":\"markup\"}}}}}";
+
+        private static readonly string example1Formatted =
+            "{" + Environment.NewLine +
+            "    \"glossary\": {" + Environment.NewLine +
+            "        \"title\": \"example glossary\"," + Environment.NewLine +
+            "        \"GlossDiv\": {" + Environment.NewLine +
+            "            \"title\": \"S\"," + Environment.NewLine +
+            "            \"GlossList\": {" + Environment.NewLine +
+            "                \"GlossEntry\": {" + Environment.NewLine +
+            "                    \"ID\": \"SGML\"," + Environment.NewLine +
+            "                    \"SortAs\": \"SGML\"," + Environment.NewLine +
+            "                    \"GlossTerm\": \"Standard Generalized Markup Language\"," + Environment.NewLine +
+            "                    \"Acronym\": \"SGML\"," + Environment.NewLine +
+            "                    \"Abbrev\": \"ISO 8879:1986\"," + Environment.NewLine +
+            "                    \"GlossDef\": {" + Environment.NewLine +
+            "                        \"para\": \"A meta-markup language,used to create markup languages such as DocBook.\"," + Environment.NewLine +
+            "                        \"GlossSeeAlso\": [" + Environment.NewLine +
+            "                            \"GML\"," + Environment.NewLine +
+            "                            \"XML\"" + Environment.NewLine +
+            "                        ]" + Environment.NewLine +
+            "                    }," + Environment.NewLine +
+            "                    \"GlossSee\": \"markup\"" + Environment.NewLine +
+            "                }" + Environment.NewLine +
+            "            }" + Environment.NewLine +
+            "        }" + Environment.NewLine +
+            "    }" + Environment.NewLine +
+            "}";
+
+        private static readonly string example2Minified =
+            "{\"menu\":{\"id\":\"file\",\"value\":\"File\",\"popup\":{\"menuitem\":[{\"value\":\"New\",\"onclick\":\"CreateNewDoc()\"},{\"value\":\"Open\",\"onclick\":\"OpenDoc()\"},{\"value\":\"Close\",\"onclick\":\"CloseDoc()\"}]}}}";
+
+        private static readonly string example2Formatted =
+            "{\"menu\": {" + Environment.NewLine +
+            "  \"id\": \"file\"," + Environment.NewLine +
+            "  \"value\": \"File\"," + Environment.NewLine +
+            "  \"popup\": {" + Environment.NewLine +
+            "    \"menuitem\": [" + Environment.NewLine +
+            "      {\"value\": \"New\", \"onclick\": \"CreateNewDoc()\"}," + Environment.NewLine +
+            "      {\"value\": \"Open\", \"onclick\": \"OpenDoc()\"}," + Environment.NewLine +
+            "      {\"value\": \"Close\", \"onclick\": \"CloseDoc()\"}" + Environment.NewLine +
+            "    ]" + Environment.NewLine +
+            "  }" + Environment.NewLine +
+            "}}";
+
+        private static readonly string example3Minified = 
+            "{\"widget\":{\"debug\":\"on\",\"window\":{\"title\":\"Sample Konfabulator Widget\",\"name\":\"main_window\",\"width\":500,\"height\":500},\"image\":{\"src\":\"Images/Sun.png\",\"name\":\"sun1\",\"hOffset\":250,\"vOffset\":250,\"alignment\":\"center\"},\"text\":{\"data\":\"Click Here\",\"size\":36,\"style\":\"bold\",\"name\":\"text1\",\"hOffset\":250,\"vOffset\":100,\"alignment\":\"center\",\"onMouseUp\":\"sun1.opacity = (sun1.opacity / 100) * 90;\"}}}";
+
+        private static readonly string example3Formatted =
+            "{\"widget\": {" + Environment.NewLine +
+            "    \"debug\": \"on\"," + Environment.NewLine +
+            "    \"window\": {" + Environment.NewLine +
+            "        \"title\": \"Sample Konfabulator Widget\"," + Environment.NewLine +
+            "        \"name\": \"main_window\"," + Environment.NewLine +
+            "        \"width\": 500," + Environment.NewLine +
+            "        \"height\": 500" + Environment.NewLine +
+            "    }," + Environment.NewLine +
+            "    \"image\": { " + Environment.NewLine +
+            "        \"src\": \"Images/Sun.png\"," + Environment.NewLine +
+            "        \"name\": \"sun1\"," + Environment.NewLine +
+            "        \"hOffset\": 250," + Environment.NewLine +
+            "        \"vOffset\": 250," + Environment.NewLine +
+            "        \"alignment\": \"center\"" + Environment.NewLine +
+            "    }," + Environment.NewLine +
+            "    \"text\": {" + Environment.NewLine +
+            "        \"data\": \"Click Here\"," + Environment.NewLine +
+            "        \"size\": 36," + Environment.NewLine +
+            "        \"style\": \"bold\"," + Environment.NewLine +
+            "        \"name\": \"text1\"," + Environment.NewLine +
+            "        \"hOffset\": 250," + Environment.NewLine +
+            "        \"vOffset\": 100," + Environment.NewLine +
+            "        \"alignment\": \"center\"," + Environment.NewLine +
+            "        \"onMouseUp\": \"sun1.opacity = (sun1.opacity / 100) * 90;\"" + Environment.NewLine +
+            "    }" + Environment.NewLine +
+            "}}";
+
+        private static readonly string example4Minified = 
+            "{\"menu\":{\"header\":\"SVG Viewer\",\"items\":[{\"id\":\"Open\"},{\"id\":\"OpenNew\",\"label\":\"Open New\"},null,{\"id\":\"ZoomIn\",\"label\":\"Zoom In\"},{\"id\":\"ZoomOut\",\"label\":\"Zoom Out\"},{\"id\":\"OriginalView\",\"label\":\"Original View\"},null,{\"id\":\"Quality\"},{\"id\":\"Pause\"},{\"id\":\"Mute\"},null,{\"id\":\"Find\",\"label\":\"Find...\"},{\"id\":\"FindAgain\",\"label\":\"Find Again\"},{\"id\":\"Copy\"},{\"id\":\"CopyAgain\",\"label\":\"Copy Again\"},{\"id\":\"CopySVG\",\"label\":\"Copy SVG\"},{\"id\":\"ViewSVG\",\"label\":\"View SVG\"},{\"id\":\"ViewSource\",\"label\":\"View Source\"},{\"id\":\"SaveAs\",\"label\":\"Save As\"},null,{\"id\":\"Help\"},{\"id\":\"About\",\"label\":\"About Adobe CVG Viewer...\"}]}}";
+
+        private static readonly string example4Formatted =
+            "{\"menu\": {" + Environment.NewLine +
+            "    \"header\": \"SVG Viewer\"," + Environment.NewLine +
+            "    \"items\": [" + Environment.NewLine +
+            "        {\"id\": \"Open\"}," + Environment.NewLine +
+            "        {\"id\": \"OpenNew\", \"label\": \"Open New\"}," + Environment.NewLine +
+            "        null," + Environment.NewLine +
+            "        {\"id\": \"ZoomIn\", \"label\": \"Zoom In\"}," + Environment.NewLine +
+            "        {\"id\": \"ZoomOut\", \"label\": \"Zoom Out\"}," + Environment.NewLine +
+            "        {\"id\": \"OriginalView\", \"label\": \"Original View\"}," + Environment.NewLine +
+            "        null," + Environment.NewLine +
+            "        {\"id\": \"Quality\"}," + Environment.NewLine +
+            "        {\"id\": \"Pause\"}," + Environment.NewLine +
+            "        {\"id\": \"Mute\"}," + Environment.NewLine +
+            "        null," + Environment.NewLine +
+            "        {\"id\": \"Find\", \"label\": \"Find...\"}," + Environment.NewLine +
+            "        {\"id\": \"FindAgain\", \"label\": \"Find Again\"}," + Environment.NewLine +
+            "        {\"id\": \"Copy\"}," + Environment.NewLine +
+            "        {\"id\": \"CopyAgain\", \"label\": \"Copy Again\"}," + Environment.NewLine +
+            "        {\"id\": \"CopySVG\", \"label\": \"Copy SVG\"}," + Environment.NewLine +
+            "        {\"id\": \"ViewSVG\", \"label\": \"View SVG\"}," + Environment.NewLine +
+            "        {\"id\": \"ViewSource\", \"label\": \"View Source\"}," + Environment.NewLine +
+            "        {\"id\": \"SaveAs\", \"label\": \"Save As\"}," + Environment.NewLine +
+            "        null," + Environment.NewLine +
+            "        {\"id\": \"Help\"}," + Environment.NewLine +
+            "        {\"id\": \"About\", \"label\": \"About Adobe CVG Viewer...\"}" + Environment.NewLine +
+            "    ]" + Environment.NewLine +
+            "}}";
+
+        #endregion
+
         [Test]
         public void Format_JsonIsNull_ThrowsArgumentNullException()
         {
@@ -28,66 +144,12 @@
             return JsonFormatter.Format(json);
         }
 
-        private static IEnumerable<TestCaseData> ValidJsonTestCaseData()
+        private static IEnumerable<TestCaseData> Format_JsonIsValidButUnformatted_ReturnsFormattedJson_TestCaseData()
         {
-            // Source data from JSON.ORG: http://json.org/example.html
-            // Expected output using JSONLint's formatter: http://jsonlint.com/
-
-            string input1 = "{\"glossary\":{\"title\":\"example glossary\",\"GlossDiv\":{\"title\":\"S\",\"GlossList\":{\"GlossEntry\":{\"ID\":\"SGML\",\"SortAs\":\"SGML\",\"GlossTerm\":\"Standard Generalized Markup Language\",\"Acronym\":\"SGML\",\"Abbrev\":\"ISO 8879:1986\",\"GlossDef\":{\"para\":\"A meta-markup language,used to create markup languages such as DocBook.\",\"GlossSeeAlso\":[\"GML\",\"XML\"]},\"GlossSee\":\"markup\"}}}}}";
-            string expectedOutput1 =
-                "{" + Environment.NewLine +
-                "    \"glossary\": {" + Environment.NewLine +
-                "        \"title\": \"example glossary\"," + Environment.NewLine +
-                "        \"GlossDiv\": {" + Environment.NewLine +
-                "            \"title\": \"S\"," + Environment.NewLine +
-                "            \"GlossList\": {" + Environment.NewLine +
-                "                \"GlossEntry\": {" + Environment.NewLine +
-                "                    \"ID\": \"SGML\"," + Environment.NewLine +
-                "                    \"SortAs\": \"SGML\"," + Environment.NewLine +
-                "                    \"GlossTerm\": \"Standard Generalized Markup Language\"," + Environment.NewLine +
-                "                    \"Acronym\": \"SGML\"," + Environment.NewLine +
-                "                    \"Abbrev\": \"ISO 8879:1986\"," + Environment.NewLine +
-                "                    \"GlossDef\": {" + Environment.NewLine +
-                "                        \"para\": \"A meta-markup language,used to create markup languages such as DocBook.\"," + Environment.NewLine +
-                "                        \"GlossSeeAlso\": [" + Environment.NewLine +
-                "                            \"GML\"," + Environment.NewLine +
-                "                            \"XML\"" + Environment.NewLine +
-                "                        ]" + Environment.NewLine +
-                "                    }," + Environment.NewLine +
-                "                    \"GlossSee\": \"markup\"" + Environment.NewLine +
-                "                }" + Environment.NewLine +
-                "            }" + Environment.NewLine +
-                "        }" + Environment.NewLine +
-                "    }" + Environment.NewLine +
-                "}";
-
-            string input2 = "{\"menu\":{\"id\":\"file\",\"value\":\"File\",\"popup\":{\"menuitem\":[{\"value\":\"New\",\"onclick\":\"CreateNewDoc()\"},{\"value\":\"Open\",\"onclick\":\"OpenDoc()\"},{\"value\":\"Close\",\"onclick\":\"CloseDoc()\"}]}}}";
-            string expectedOutput2 =
-                "{" + Environment.NewLine +
-                "    \"menu\": {" + Environment.NewLine +
-                "        \"id\": \"file\"," + Environment.NewLine +
-                "        \"value\": \"File\"," + Environment.NewLine +
-                "        \"popup\": {" + Environment.NewLine +
-                "            \"menuitem\": [" + Environment.NewLine +
-                "                {" + Environment.NewLine +
-                "                    \"value\": \"New\"," + Environment.NewLine +
-                "                    \"onclick\": \"CreateNewDoc()\"" + Environment.NewLine +
-                "                }," + Environment.NewLine +
-                "                {" + Environment.NewLine +
-                "                    \"value\": \"Open\"," + Environment.NewLine +
-                "                    \"onclick\": \"OpenDoc()\"" + Environment.NewLine +
-                "                }," + Environment.NewLine +
-                "                {" + Environment.NewLine +
-                "                    \"value\": \"Close\"," + Environment.NewLine +
-                "                    \"onclick\": \"CloseDoc()\"" + Environment.NewLine +
-                "                }" + Environment.NewLine +
-                "            ]" + Environment.NewLine +
-                "        }" + Environment.NewLine +
-                "    }" + Environment.NewLine +
-                "}";
-
-            yield return new TestCaseData(input1).Returns(expectedOutput1);
-            yield return new TestCaseData(input2).Returns(expectedOutput2);
+            yield return new TestCaseData(example1Minified).Returns(example1Formatted);
+            yield return new TestCaseData(example2Minified).Returns(example2Formatted);
+            yield return new TestCaseData(example3Minified).Returns(example3Formatted);
+            yield return new TestCaseData(example4Minified).Returns(example4Formatted);
         }
 
         [Test]
@@ -111,49 +173,12 @@
             return JsonFormatter.Minify(json);
         }
 
-        private static IEnumerable<TestCaseData> MinifyTestCaseData()
+        private static IEnumerable<TestCaseData> Minify_JsonIsValidButNotMinified_ReturnsMinifiedJson_TestCaseData()
         {
-            string input1 =
-                "{" + Environment.NewLine +
-                "    \"glossary\": {" + Environment.NewLine +
-                "        \"title\": \"example glossary\"," + Environment.NewLine +
-                "        \"GlossDiv\": {" + Environment.NewLine +
-                "            \"title\": \"S\"," + Environment.NewLine +
-                "            \"GlossList\": {" + Environment.NewLine +
-                "                \"GlossEntry\": {" + Environment.NewLine +
-                "                    \"ID\": \"SGML\"," + Environment.NewLine +
-                "                    \"SortAs\": \"SGML\"," + Environment.NewLine +
-                "                    \"GlossTerm\": \"Standard Generalized Markup Language\"," + Environment.NewLine +
-                "                    \"Acronym\": \"SGML\"," + Environment.NewLine +
-                "                    \"Abbrev\": \"ISO 8879:1986\"," + Environment.NewLine +
-                "                    \"GlossDef\": {" + Environment.NewLine +
-                "                        \"para\": \"A meta-markup language, used to create markup languages such as DocBook.\"," + Environment.NewLine +
-                "                        \"GlossSeeAlso\": [\"GML\", \"XML\"]" + Environment.NewLine +
-                "                    }," + Environment.NewLine +
-                "                    \"GlossSee\": \"markup\"" + Environment.NewLine +
-                "                }" + Environment.NewLine +
-                "            }" + Environment.NewLine +
-                "        }" + Environment.NewLine +
-                "    }" + Environment.NewLine +
-                "}";
-            string expectedOutput1 = "{\"glossary\":{\"title\":\"example glossary\",\"GlossDiv\":{\"title\":\"S\",\"GlossList\":{\"GlossEntry\":{\"ID\":\"SGML\",\"SortAs\":\"SGML\",\"GlossTerm\":\"Standard Generalized Markup Language\",\"Acronym\":\"SGML\",\"Abbrev\":\"ISO 8879:1986\",\"GlossDef\":{\"para\":\"A meta-markup language, used to create markup languages such as DocBook.\",\"GlossSeeAlso\":[\"GML\",\"XML\"]},\"GlossSee\":\"markup\"}}}}}";
-
-            string input2 =
-                "{\"menu\": {" + Environment.NewLine +
-                "  \"id\": \"file\"," + Environment.NewLine +
-                "  \"value\": \"File\"," + Environment.NewLine +
-                "  \"popup\": {" + Environment.NewLine +
-                "    \"menuitem\": [" + Environment.NewLine +
-                "      {\"value\": \"New\", \"onclick\": \"CreateNewDoc()\"}," + Environment.NewLine +
-                "      {\"value\": \"Open\", \"onclick\": \"OpenDoc()\"}," + Environment.NewLine +
-                "      {\"value\": \"Close\", \"onclick\": \"CloseDoc()\"}" + Environment.NewLine +
-                "    ]" + Environment.NewLine +
-                "  }" + Environment.NewLine +
-                "}}";
-            string expectedOutput2 = "{\"menu\":{\"id\":\"file\",\"value\":\"File\",\"popup\":{\"menuitem\":[{\"value\":\"New\",\"onclick\":\"CreateNewDoc()\"},{\"value\":\"Open\",\"onclick\":\"OpenDoc()\"},{\"value\":\"Close\",\"onclick\":\"CloseDoc()\"}]}}}";
-
-            yield return new TestCaseData(input1).Returns(expectedOutput1);
-            yield return new TestCaseData(input2).Returns(expectedOutput2);
+            yield return new TestCaseData(example1Formatted).Returns(example1Minified);
+            yield return new TestCaseData(example2Formatted).Returns(example2Minified);
+            yield return new TestCaseData(example3Formatted).Returns(example3Minified);
+            yield return new TestCaseData(example4Formatted).Returns(example4Minified);
         }
     }
 }
