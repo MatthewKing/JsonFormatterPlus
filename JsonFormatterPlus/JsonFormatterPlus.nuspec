@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <authors>Matthew King, Mark Rogers</authors>
+	<owners>Matthew King</owners>
+	<licenseUrl>http://opensource.org/licenses/mit-license</licenseUrl>
+    <description>$description$</description>
+	<tags>json format prettyprint minify</tags>
+  </metadata>
+</package>
