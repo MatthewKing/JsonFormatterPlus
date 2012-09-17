@@ -4,9 +4,9 @@
     <id>$id$</id>
     <version>$version$</version>
     <authors>Matthew King</authors>
-	<owners>Matthew King</owners>
-	<licenseUrl>http://opensource.org/licenses/mit-license</licenseUrl>
+    <owners>Matthew King</owners>
+    <licenseUrl>http://opensource.org/licenses/mit-license</licenseUrl>
     <description>$description$</description>
-	<tags>json format prettyprint minify</tags>
+    <tags>json format prettyprint minify</tags>
   </metadata>
 </package>
