@@ -27,4 +27,4 @@ A few extra 'quality of life' changes were also made, such as providing JSON min
 
 ### License
 
-JsonFormatter is distributed under the MIT license.
+JsonFormatterPlus is distributed under the MIT license.
