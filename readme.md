@@ -4,6 +4,10 @@ JsonFormatterPlus
 This library provides some simple JSON formatting / pretty printing functionality for .NET.
 It was originally based on Mark Rogers' [JsonPrettyPrinterPlus](http://www.markdavidrogers.com/oxitesample/Blog/json-pretty-printerbeautifier-library-for-net), but has evolved from there.
 
+### Installation
+
+`PM> Install-Package JsonFormatterPlus`
+
 ### Example
 
 Pretty-printing a JSON string:
