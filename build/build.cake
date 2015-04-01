@@ -2,6 +2,7 @@ var target = Argument("target", "Finalize");
 var configuration = Argument("configuration", "Release");
 var workingDir = Directory("./temp").Path.MakeAbsolute(Context.Environment);
 var outputDir = Directory("./output").Path.MakeAbsolute(Context.Environment);
+var solutionFile = GetFiles("../*.sln").Single();
 
 Task("Clean")
     .Does(() =>
@@ -9,12 +10,19 @@ Task("Clean")
         CleanDirectory(workingDir);
         CleanDirectory(outputDir);
     });
-    
-Task("Build")
+
+Task("PackageRestore")
     .IsDependentOn("Clean")
     .Does(() =>
     {
-        var solutionFile = GetFiles("../*.sln").Single();
+        NuGetRestore(solutionFile);
+    });
+
+Task("Build")
+    .IsDependentOn("Clean")
+    .IsDependentOn("PackageRestore")
+    .Does(() =>
+    {
         MSBuild(solutionFile, settings => 
         {
             settings.SetConfiguration(configuration);
