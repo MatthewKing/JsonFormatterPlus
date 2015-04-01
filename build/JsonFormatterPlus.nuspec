@@ -1,12 +1,13 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>$id$</id>
+    <id>JsonFormatterPlus</id>
     <version>$version$</version>
     <authors>Matthew King, Mark Rogers</authors>
     <owners>Matthew King</owners>
-    <licenseUrl>http://opensource.org/licenses/mit-license</licenseUrl>
-    <description>$description$</description>
+    <description>Simple JSON formatting/pretty-printing.</description>
+    <projectUrl>https://github.com/MatthewKing/JsonFormatterPlus</projectUrl>
+    <licenseUrl>http://opensource.org/licenses/mit</licenseUrl>
     <tags>json format prettyprint minify</tags>
   </metadata>
 </package>
