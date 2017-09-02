@@ -9,7 +9,7 @@
     <PackageProjectUrl>https://github.com/MatthewKing/JsonFormatterPlus</PackageProjectUrl>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageTags>json;format;prettyprint;pretty;print;minify</PackageTags>
-    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionPrefix>1.0.1</VersionPrefix>
   </PropertyGroup>
 
   <PropertyGroup>
