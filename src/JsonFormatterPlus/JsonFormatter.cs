@@ -1,9 +1,9 @@
-﻿namespace JsonFormatterPlus
-{
-    using System;
-    using System.Text.RegularExpressions;
-    using JsonFormatterPlus.Internals;
+﻿using System;
+using System.Text.RegularExpressions;
+using JsonFormatterPlus.Internals;
 
+namespace JsonFormatterPlus
+{
     /// <summary>
     /// Provides JSON formatting functionality.
     /// </summary>
@@ -19,7 +19,7 @@
         {
             if (json == null)
             {
-                throw new ArgumentNullException("json should not be null.");
+                throw new ArgumentNullException(nameof(json));
             }
 
             var context = new JsonFormatterStrategyContext();
@@ -38,7 +38,7 @@
         {
             if (json == null)
             {
-                throw new ArgumentNullException("json should not be null.");
+                throw new ArgumentNullException(nameof(json));
             }
 
             return Regex.Replace(json, "(\"(?:[^\"\\\\]|\\\\.)*\")|\\s+", "$1");

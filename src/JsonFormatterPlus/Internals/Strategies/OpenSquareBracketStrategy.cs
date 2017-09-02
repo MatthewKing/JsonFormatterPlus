@@ -2,6 +2,8 @@
 {
     internal sealed class OpenSquareBracketStrategy : ICharacterStrategy
     {
+        public char ForWhichCharacter => '[';
+
         public void Execute(JsonFormatterStrategyContext context)
         {
             context.AppendCurrentChar();
@@ -13,11 +15,6 @@
 
             context.EnterArrayScope();
             context.BuildContextIndents();
-        }
-
-        public char ForWhichCharacter
-        {
-            get { return '['; }
         }
     }
 }

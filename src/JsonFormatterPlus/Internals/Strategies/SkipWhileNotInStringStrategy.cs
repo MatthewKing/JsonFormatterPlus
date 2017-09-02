@@ -2,11 +2,11 @@
 {
     internal sealed class SkipWhileNotInStringStrategy : ICharacterStrategy
     {
-        private readonly char selectionCharacter;
+        public char ForWhichCharacter { get; }
 
         public SkipWhileNotInStringStrategy(char selectionCharacter)
         {
-            this.selectionCharacter = selectionCharacter;
+            ForWhichCharacter = selectionCharacter;
         }
 
         public void Execute(JsonFormatterStrategyContext context)
@@ -14,14 +14,6 @@
             if (context.IsProcessingString)
             {
                 context.AppendCurrentChar();
-            }
-        }
-
-        public char ForWhichCharacter
-        {
-            get
-            {
-                return this.selectionCharacter;
             }
         }
     }

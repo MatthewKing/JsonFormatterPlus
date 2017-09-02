@@ -2,6 +2,8 @@
 {
     internal sealed class ColonCharacterStrategy : ICharacterStrategy
     {
+        public char ForWhichCharacter => ':';
+
         public void Execute(JsonFormatterStrategyContext context)
         {
             if (context.IsProcessingString)
@@ -13,11 +15,6 @@
             context.IsProcessingVariableAssignment = true;
             context.AppendCurrentChar();
             context.AppendSpace();
-        }
-
-        public char ForWhichCharacter
-        {
-            get { return ':'; }
         }
     }
 }

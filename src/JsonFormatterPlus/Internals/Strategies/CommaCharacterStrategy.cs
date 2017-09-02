@@ -2,6 +2,8 @@
 {
     internal sealed class CommaStrategy : ICharacterStrategy
     {
+        public char ForWhichCharacter => ',';
+
         public void Execute(JsonFormatterStrategyContext context)
         {
             context.AppendCurrentChar();
@@ -13,11 +15,6 @@
 
             context.BuildContextIndents();
             context.IsProcessingVariableAssignment = false;
-        }
-
-        public char ForWhichCharacter
-        {
-            get { return ','; }
         }
     }
 }

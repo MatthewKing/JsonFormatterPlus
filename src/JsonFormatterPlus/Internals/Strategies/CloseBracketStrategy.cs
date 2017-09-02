@@ -2,6 +2,8 @@
 {
     internal sealed class CloseBracketStrategy : ICharacterStrategy
     {
+        public char ForWhichCharacter => '}';
+
         public void Execute(JsonFormatterStrategyContext context)
         {
             if (context.IsProcessingString)
@@ -18,11 +20,6 @@
             context.CloseCurrentScope();
             context.BuildContextIndents();
             context.AppendCurrentChar();
-        }
-
-        public char ForWhichCharacter
-        {
-            get { return '}'; }
         }
     }
 }

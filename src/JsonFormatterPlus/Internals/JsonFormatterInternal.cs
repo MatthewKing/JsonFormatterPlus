@@ -1,30 +1,30 @@
-﻿namespace JsonFormatterPlus.Internals
-{
-    using System;
-    using System.Text;
-    using JsonFormatterPlus.Internals.Strategies;
+﻿using System;
+using System.Text;
+using JsonFormatterPlus.Internals.Strategies;
 
+namespace JsonFormatterPlus.Internals
+{
     internal sealed class JsonFormatterInternal
     {
-        private readonly JsonFormatterStrategyContext context;
+        private readonly JsonFormatterStrategyContext _context;
 
         public JsonFormatterInternal(JsonFormatterStrategyContext context)
         {
-            this.context = context;
+            _context = context;
 
-            this.context.ClearStrategies();
-            this.context.AddCharacterStrategy(new OpenBracketStrategy());
-            this.context.AddCharacterStrategy(new CloseBracketStrategy());
-            this.context.AddCharacterStrategy(new OpenSquareBracketStrategy());
-            this.context.AddCharacterStrategy(new CloseSquareBracketStrategy());
-            this.context.AddCharacterStrategy(new SingleQuoteStrategy());
-            this.context.AddCharacterStrategy(new DoubleQuoteStrategy());
-            this.context.AddCharacterStrategy(new CommaStrategy());
-            this.context.AddCharacterStrategy(new ColonCharacterStrategy());
-            this.context.AddCharacterStrategy(new SkipWhileNotInStringStrategy('\n'));
-            this.context.AddCharacterStrategy(new SkipWhileNotInStringStrategy('\r'));
-            this.context.AddCharacterStrategy(new SkipWhileNotInStringStrategy('\t'));
-            this.context.AddCharacterStrategy(new SkipWhileNotInStringStrategy(' '));
+            _context.ClearStrategies();
+            _context.AddCharacterStrategy(new OpenBracketStrategy());
+            _context.AddCharacterStrategy(new CloseBracketStrategy());
+            _context.AddCharacterStrategy(new OpenSquareBracketStrategy());
+            _context.AddCharacterStrategy(new CloseSquareBracketStrategy());
+            _context.AddCharacterStrategy(new SingleQuoteStrategy());
+            _context.AddCharacterStrategy(new DoubleQuoteStrategy());
+            _context.AddCharacterStrategy(new CommaStrategy());
+            _context.AddCharacterStrategy(new ColonCharacterStrategy());
+            _context.AddCharacterStrategy(new SkipWhileNotInStringStrategy('\n'));
+            _context.AddCharacterStrategy(new SkipWhileNotInStringStrategy('\r'));
+            _context.AddCharacterStrategy(new SkipWhileNotInStringStrategy('\t'));
+            _context.AddCharacterStrategy(new SkipWhileNotInStringStrategy(' '));
         }
 
         public string Format(string json)
@@ -39,10 +39,10 @@
                 return String.Empty;
             }
 
-            StringBuilder input = new StringBuilder(json);
-            StringBuilder output = new StringBuilder();
+            var input = new StringBuilder(json);
+            var output = new StringBuilder();
 
-            this.PrettyPrintCharacter(input, output);
+            PrettyPrintCharacter(input, output);
 
             return output.ToString();
         }
@@ -51,7 +51,7 @@
         {
             for (int i = 0; i < input.Length; i++)
             {
-                this.context.PrettyPrintCharacter(input[i], output);
+                _context.PrettyPrintCharacter(input[i], output);
             }
         }
     }

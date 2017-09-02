@@ -1,7 +1,7 @@
-﻿namespace JsonFormatterPlus.Internals
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace JsonFormatterPlus.Internals
+{
     internal sealed class FormatterScopeState
     {
         public enum JsonScope
@@ -10,38 +10,25 @@
             Array
         }
 
-        private readonly Stack<JsonScope> scopeStack = new Stack<JsonScope>();
+        private readonly Stack<JsonScope> _scopeStack = new Stack<JsonScope>();
 
-        public bool IsTopTypeArray
-        {
-            get
-            {
-                return scopeStack.Count > 0 
-                    && scopeStack.Peek() == JsonScope.Array;
-            }
-        }
+        public bool IsTopTypeArray => _scopeStack.Count > 0 && _scopeStack.Peek() == JsonScope.Array;
 
-        public int ScopeDepth
-        {
-            get
-            {
-                return scopeStack.Count;
-            }
-        }
+        public int ScopeDepth => _scopeStack.Count;
 
         public void PushObjectContextOntoStack()
         {
-            scopeStack.Push(JsonScope.Object);
+            _scopeStack.Push(JsonScope.Object);
         }
 
         public JsonScope PopJsonType()
         {
-            return scopeStack.Pop();
+            return _scopeStack.Pop();
         }
 
         public void PushJsonArrayType()
         {
-            scopeStack.Push(JsonScope.Array);
+            _scopeStack.Push(JsonScope.Array);
         }
     }
 }
