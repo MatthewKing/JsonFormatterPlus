@@ -1,64 +1,20 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{228B3EAE-D49C-4CB1-93EE-E0CD501EF081}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JsonFormatterPlus</RootNamespace>
-    <AssemblyName>JsonFormatterPlus</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <PackageId>JsonFormatterPlus</PackageId>
+    <Title>JsonFormatterPlus</Title>
+    <Description>Simple JSON formatting/pretty-printing.</Description>
+    <Authors>Matthew King;Mark Rogers</Authors>
+    <Copyright>Copyright 2012-2017 Matthew King.</Copyright>
+    <PackageProjectUrl>https://github.com/MatthewKing/JsonFormatterPlus</PackageProjectUrl>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageTags>json;format;prettyprint;pretty;print;minify</PackageTags>
+    <VersionPrefix>1.0.0</VersionPrefix>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+
+  <PropertyGroup>
+    <TargetFrameworks>net20;netstandard1.0</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\JsonFormatterPlus.xml</DocumentationFile>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Internals\FormatterScopeState.cs" />
-    <Compile Include="Internals\ICharacterStrategy.cs" />
-    <Compile Include="Internals\JsonFormatterInternal.cs" />
-    <Compile Include="Internals\JsonFormatterStrategyContext.cs" />
-    <Compile Include="Internals\Strategies\CloseBracketStrategy.cs" />
-    <Compile Include="Internals\Strategies\CloseSquareBracketStrategy.cs" />
-    <Compile Include="Internals\Strategies\ColonCharacterStrategy.cs" />
-    <Compile Include="Internals\Strategies\CommaCharacterStrategy.cs" />
-    <Compile Include="Internals\Strategies\DefaultCharacterStrategy.cs" />
-    <Compile Include="Internals\Strategies\DoubleQuoteStrategy.cs" />
-    <Compile Include="Internals\Strategies\OpenBracketStrategy.cs" />
-    <Compile Include="Internals\Strategies\OpenSquareBracketStrategy.cs" />
-    <Compile Include="Internals\Strategies\SingleQuoteStrategy.cs" />
-    <Compile Include="Internals\Strategies\SkipWhileNotInStringStrategy.cs" />
-    <Compile Include="JsonFormatter.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

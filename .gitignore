@@ -1,24 +1,5 @@
-# build
-[Bb]in/
-[Oo]bj/
-[Dd]ebug/
-[Rr]elease/
+.vs/
+bin/
+obj/
+artifacts/
 build/tools/
-build/temp/
-build/output/
-
-# user-specific files
-*.suo
-*.user
-*.sln.docstates
-
-# ncrunch
-*.crunchsolution*
-*.ncrunchsolution*
-*.ncrunchproject*
-
-# nuget
-packages/
-
-# other
-*.[Cc]ache

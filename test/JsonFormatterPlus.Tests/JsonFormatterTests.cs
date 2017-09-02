@@ -2,10 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
-    using NUnit.Framework;
+    using FluentAssertions;
+    using Xunit;
 
-    [TestFixture]
-    internal sealed class JsonFormatterTests
+    public sealed class JsonFormatterTests
     {
         #region Example data.
 
@@ -186,62 +186,60 @@
 
         #endregion
 
-        [Test]
+        [Fact]
         public void Format_JsonIsNull_ThrowsArgumentNullException()
         {
-            const string message = "json should not be null.";
-            Assert.That(() => JsonFormatter.Format(null),
-                Throws.TypeOf<ArgumentNullException>()
-                      .And.Message.Contains(message));
+            Action act = () => JsonFormatter.Format(null);
+            act.ShouldThrow<ArgumentNullException>();
         }
 
-        [Test]
+        [Fact]
         public void Format_JsonIsEmptyString_ReturnsEmptyString()
         {
-            Assert.That(JsonFormatter.Format(String.Empty), Is.Empty);
+            JsonFormatter.Format(String.Empty).Should().BeEmpty();
         }
 
-        [TestCaseSource("Format_JsonIsValidButUnformatted_ReturnsFormattedJson_TestCaseData")]
-        public string Format_JsonIsValidButUnformatted_ReturnsFormattedJson(string json)
+        [Theory]
+        [MemberData(nameof(Format_JsonIsValidButUnformatted_ReturnsFormattedJson_TestCaseData))]
+        public void Format_JsonIsValidButUnformatted_ReturnsFormattedJson(string json, string formattedJson)
         {
-            return JsonFormatter.Format(json);
+            JsonFormatter.Format(json).Should().Be(formattedJson);
         }
 
-        private static IEnumerable<TestCaseData> Format_JsonIsValidButUnformatted_ReturnsFormattedJson_TestCaseData()
+        private static IEnumerable<object[]> Format_JsonIsValidButUnformatted_ReturnsFormattedJson_TestCaseData()
         {
-            yield return new TestCaseData(example1Minified).Returns(example1Formatted);
-            yield return new TestCaseData(example2Minified).Returns(example2Formatted);
-            yield return new TestCaseData(example3Minified).Returns(example3Formatted);
-            yield return new TestCaseData(example4Minified).Returns(example4Formatted);
+            yield return new object[] { example1Minified, example1Formatted };
+            yield return new object[] { example2Minified, example2Formatted };
+            yield return new object[] { example3Minified, example3Formatted };
+            yield return new object[] { example4Minified, example4Formatted };
         }
 
-        [Test]
+        [Fact]
         public void Minify_JsonIsNull_ThrowsArgumentNullException()
         {
-            const string message = "json should not be null.";
-            Assert.That(() => JsonFormatter.Format(null),
-                Throws.TypeOf<ArgumentNullException>()
-                      .And.Message.Contains(message));
+            Action act = () => JsonFormatter.Minify(null);
+            act.ShouldThrow<ArgumentNullException>();
         }
 
-        [Test]
+        [Fact]
         public void Minify_JsonIsEmpty_ReturnsEmptyString()
         {
-            Assert.That(JsonFormatter.Minify(String.Empty), Is.Empty);
+            JsonFormatter.Minify(String.Empty).Should().BeEmpty();
         }
 
-        [TestCaseSource("Minify_JsonIsValidButNotMinified_ReturnsMinifiedJson_TestCaseData")]
-        public string Minify_JsonIsValidButNotMinified_ReturnsMinifiedJson(string json)
+        [Theory]
+        [MemberData(nameof(Minify_JsonIsValidButNotMinified_ReturnsMinifiedJson_TestCaseData))]
+        public void Minify_JsonIsValidButNotMinified_ReturnsMinifiedJson(string json, string minifiedJson)
         {
-            return JsonFormatter.Minify(json);
+            JsonFormatter.Minify(json).Should().Be(minifiedJson);
         }
 
-        private static IEnumerable<TestCaseData> Minify_JsonIsValidButNotMinified_ReturnsMinifiedJson_TestCaseData()
+        private static IEnumerable<object> Minify_JsonIsValidButNotMinified_ReturnsMinifiedJson_TestCaseData()
         {
-            yield return new TestCaseData(example1Formatted).Returns(example1Minified);
-            yield return new TestCaseData(example2Formatted).Returns(example2Minified);
-            yield return new TestCaseData(example3Formatted).Returns(example3Minified);
-            yield return new TestCaseData(example4Formatted).Returns(example4Minified);
+            yield return new object[] { example1Formatted, example1Minified };
+            yield return new object[] { example2Formatted, example2Minified };
+            yield return new object[] { example3Formatted, example3Minified };
+            yield return new object[] { example4Formatted, example4Minified };
         }
     }
 }
