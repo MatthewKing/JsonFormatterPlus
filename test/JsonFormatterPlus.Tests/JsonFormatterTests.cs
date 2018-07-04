@@ -1,10 +1,10 @@
-﻿namespace JsonFormatterPlus.Tests
-{
-    using System;
-    using System.Collections.Generic;
-    using FluentAssertions;
-    using Xunit;
+﻿using System;
+using System.Collections.Generic;
+using FluentAssertions;
+using Xunit;
 
+namespace JsonFormatterPlus.Tests
+{
     public sealed class JsonFormatterTests
     {
         #region Example data.
