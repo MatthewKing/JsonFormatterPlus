@@ -7,7 +7,7 @@
     <Authors>Matthew King;Mark Rogers</Authors>
     <Copyright>Copyright 2012-2018 Matthew King.</Copyright>
     <PackageProjectUrl>https://github.com/MatthewKing/JsonFormatterPlus</PackageProjectUrl>
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>json;format;prettyprint;pretty;print;minify</PackageTags>
     <VersionPrefix>1.0.2</VersionPrefix>
   </PropertyGroup>
